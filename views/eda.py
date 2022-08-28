@@ -1,4 +1,4 @@
-from re import I
+import random
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -32,20 +32,31 @@ def app():
     f = plt.figure(figsize=(20, 18))
     
     for i, val in enumerate(list(df.columns)):
+        hexadecimal = ["#"+''.join([random.choice('ABCDEF0123456789') for i in range(6)])]
+
         f.add_subplot(4, 3, i+1)
-        sns.histplot(df[val], bins=15)
+        sns.histplot(df[val], bins=15, color=hexadecimal)
     
     st.write("")
     st.markdown("#### Mengecek Distribusi Data")
-    st.pyplot(f)
+
+    col1, col2 = st.columns([10, 1])
+
+    with col1:
+        st.pyplot(f)
 
     for i in columns:
         le = LabelEncoder()
         df[i]= le.fit_transform(df[i].values)
 
-
+    st.markdown("#### Mengecek Korelasi Setiap Kolom")
 
     heatmap_corr = plt.figure(figsize=(12, 10))
-    st.markdown("#### Mengecek Korelasi Setiap Kolom")
-    sns.heatmap(df.corr(), vmin=-1, vmax=1, annot=True, cmap='BrBG')
-    st.pyplot(heatmap_corr)
+    mask = np.triu(np.ones_like(df.corr(), dtype=bool))
+
+    sns.heatmap(df.corr(), mask=mask, vmin=-1, vmax=1, annot=True, cmap='BrBG')
+
+    col1, col2 = st.columns([2, 1])
+
+    with col1:
+        st.pyplot(heatmap_corr)
