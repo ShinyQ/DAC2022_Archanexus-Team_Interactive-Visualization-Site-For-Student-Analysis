@@ -1,5 +1,4 @@
 import streamlit as st
-from PIL import Image
 
 
 def app():
@@ -10,14 +9,26 @@ def app():
     cols = st.columns([4, 4, 4, 4])
 
     team = [
-        {'image': Image.open(r"./static/image/photo/img_ahmad.jpg").resize((300, 350)),
-            'name': 'Ahmad Julius Tarigan', 'nim': '1301190345'},
-        {'image': Image.open(r"./static/image/photo/img_vito.png").resize((300, 350)),
-            'name': 'Hanvito Michael Lee', 'nim': '1301190090'},
-        {'image': Image.open(r"./static/image/photo/img_kurniadi.jpg").resize((300, 350)),
-            'name': 'Kurniadi Ahmad Wijaya', 'nim': '1301194024'},
-        {'image': Image.open(r"./static/image/photo/img_dini.jpg").resize((300, 350)),
-            'name': 'Ni Made Dwipadini Puspitarini',  'nim': '1301194141'}
+        {
+            'image': "./static/image/photo/img_ahmad.jpg",
+            'name': 'Ahmad Julius Tarigan', 
+            'nim': '1301190345'
+        },
+        {
+            'image': "./static/image/photo/img_vito.png",
+            'name': 'Hanvito Michael Lee', 
+            'nim': '1301190090'
+        },
+        {
+            'image': "./static/image/photo/img_kurniadi.jpg",
+            'name': 'Kurniadi Ahmad Wijaya', 
+            'nim': '1301194024'
+        },
+        {
+            'image': "./static/image/photo/img_dini.jpg",
+            'name': 'Ni Made Dwipadini Puspitarini',  
+            'nim': '1301194141'
+        }
     ]
 
     for i, v in enumerate(cols):
