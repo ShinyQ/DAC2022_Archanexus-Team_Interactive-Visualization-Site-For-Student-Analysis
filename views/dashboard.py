@@ -6,7 +6,18 @@ def app():
     df = pd.read_csv('static/Data_kualifikasi.csv', sep=';')
     
     st.markdown('''
-        #### Alur Pengerjaan:
+        Data Analysis Competition (DAC) adalah kompetisi berskala nasional yang
+        diselenggarakan oleh Himpunan Mahasiswa Teknik Informatika Universitas
+        Padjadjaran sebagai bagian dari acara Informatics Festival (IFest) 2022. Data
+        Analysis Competition merupakan kompetisi menganalisis data untuk
+        memperoleh informasi yang berguna dan mendukung proses pengambilan
+        keputusan. Tujuan dari kegiatan ini yaitu mendorong generasi milenial agar
+        memiliki kemampuan analisis yang baik sehingga dapat memecahkan berbagai
+        permasalahan yang ada di era digital.
+    ''')
+
+    st.markdown('''
+        #### Alur Pengerjaan Penyisihan:
         - Topik dataset yang dianalisis adalah data mahasiswa.
         - Dataset babak penyisihan dan kamus data dapat diakses di : https://bit.ly/DatasetBabakPenyisihanDAC2022	
         - Lakukan analisis data yang ada pada "Data - Kualifikasi.csv". Jenis analisis yang digunakan hanya sebatas deskriptif dan diagnostik.

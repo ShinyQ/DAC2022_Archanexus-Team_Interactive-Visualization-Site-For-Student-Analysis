@@ -7,8 +7,9 @@ def get_df():
     df = pd.read_csv('./static/Data_kualifikasi.csv', sep=';')
     return df
 
-def ukm_fakultas(df):
-    pass
+def space():
+    st.write("\n")
+    st.write("\n")
 
 def sankey_dataset(df):
     df_temp1 = df.groupby(["Gender", "Tinggal_Dengan"])["Nama"].count().reset_index()
@@ -73,16 +74,93 @@ def sankey_dataset(df):
         width=1400, 
         margin_pad=0,
         margin=dict(l=0, r=0, t=0, b=0),
-    ),
+    )
+
     st.plotly_chart(fig)
+
+
+def pie_ukm_fakultas(df):
+    df = df.loc[: , ["UKM", "Fakultas"]]
+
+    col1, col2 = st.columns([3, 9])
+
+    with col1:
+         choose_columns = st.selectbox('Silahkan Pilih Kolom', df["UKM"].unique())
+
+    space()
+    col1, col2, _ = st.columns([5, 4, 1])
+    
+    with col1:  
+        df_faculty = df.loc[lambda df: df['UKM'] == choose_columns]
+        df_faculty = dict(df_faculty['Fakultas'].value_counts())
+        df_faculty = df_faculty.items()
+        df_faculty = pd.DataFrame(list(df_faculty), columns=["Fakultas", "Jumlah"])
+
+        fig = px.pie(df_faculty, values='Jumlah', names='Fakultas')
+        fig.update_traces(textposition='inside', textinfo='percent+label')
+        fig.update_layout(
+            font_size = 18, 
+            height=350, 
+            width=550, 
+            margin=dict(l=0, r=0, t=0, b=0),
+            margin_pad=0
+        )
+
+        st.plotly_chart(fig)
+
+    with col2:
+        st.markdown(f'##### Deskripsi Jumlah Fakultas Pada {choose_columns}:')
+        st.table(df_faculty)
+
+
+def pie_alamat_fakultas(df):
+    df = df.loc[: , ["Alamat", "Fakultas"]]
+
+    col1, col2 = st.columns([3, 9])
+
+    with col1:
+         choose_columns = st.selectbox('Silahkan Pilih Kolom', df["Fakultas"].unique())
+
+    space()
+    col1, col2, _ = st.columns([5, 4, 1])
+    
+    with col1:  
+        df_faculty = df.loc[lambda df: df['Fakultas'] == choose_columns]
+        df_faculty = dict(df_faculty['Alamat'].value_counts())
+        df_faculty = df_faculty.items()
+        df_faculty = pd.DataFrame(list(df_faculty), columns=["Alamat", "Jumlah"])
+
+        fig = px.pie(df_faculty, values='Jumlah', names='Alamat')
+        fig.update_traces(textposition='inside', textinfo='percent+label')
+        fig.update_layout(
+            font_size = 18, 
+            height=350, 
+            width=550, 
+            margin=dict(l=0, r=0, t=0, b=0),
+            margin_pad=0
+        )
+
+        st.plotly_chart(fig)
+
+    with col2:
+        st.markdown(f'##### Deskripsi Jumlah Alamat Pada Fakultas {choose_columns}:')
+        st.table(df_faculty)
 
 
 def app():
     st.markdown("# Halaman Analisis Dataset")
-
+    st.write("Pada halaman ini ditampilkan analisis terkait data mahasiswa yang ada.")
     df = get_df()
 
-    ukm_fakultas(df)
+    st.markdown("#### Persentase Fakultas Berdasarkan UKM Yang Diikuti")
+    pie_ukm_fakultas(df)
+
+    space()
+
+    st.markdown("#### Persentase Kota Tinggal Berdasarkan Fakultas")
+    pie_alamat_fakultas(df)
+    
+    space()
 
     st.markdown("#### Sankey Diagram")
     sankey_dataset(df)
