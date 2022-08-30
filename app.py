@@ -1,5 +1,5 @@
 import streamlit as st
-from views import eda, analysis, dashboard, about, preprocessing, lust
+from views import eda, analysis, dashboard, about
 
 st.set_page_config(
     page_title='IFest 2022 Universitas Padjajaran - Archanexus Team',
@@ -11,8 +11,6 @@ PAGES = {
     "🏠 Dashboard": dashboard,
     "🔍 Exploratory Data Analysis": eda,
     "💡 Analisis Dataset": analysis,
-    "🧹 Pra-pemrosesan Data": preprocessing,
-    "✨ Clustering Data": lust,
     "👥 Tentang Kami": about,
 }
 
