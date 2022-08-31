@@ -205,6 +205,41 @@ def barplot_year_description(df):
 
     st.plotly_chart(fig)
 
+def funnel_three_and_a_half_year(df):
+    col1, col2 = st.columns([3, 9])
+
+    with col1:
+        choose_tinggal = st.selectbox('Silahkan Pilih Tinggal Dengan', df["Tinggal_Dengan"].unique())
+        choose_status = st.selectbox('Silahkan Pilih Status Kerja', df["Status_Kerja"].unique())
+        choose_biaya = st.selectbox('Silahkan Pilih Biaya', df["Biaya"].unique())
+
+    df_funnel = pd.DataFrame(columns=["attributes", "total"])
+
+    df_funnel = df_funnel.append({"attributes": f'Tinggal Dengan: {choose_tinggal}', "total": df["Tinggal_Dengan"].value_counts()[choose_tinggal]}, ignore_index=True)
+
+    count = len(df.query(f'Tinggal_Dengan == "{choose_tinggal}" and Status_Kerja == "{choose_status}"'))
+    df_funnel = df_funnel.append({"attributes": f'Status kerja: {choose_status}', "total": count}, ignore_index=True)
+
+    count = len(df.query(f'Tinggal_Dengan == "{choose_tinggal}" and Status_Kerja == "{choose_status}" and Biaya == "{choose_biaya}"'))
+    df_funnel = df_funnel.append({"attributes": f'Dibiayai oleh: {choose_biaya}', "total": count}, ignore_index=True)
+
+    count = len(df.query(f'Tinggal_Dengan == "{choose_tinggal}" and Status_Kerja == "{choose_status}" and Biaya == "{choose_biaya}" and Lama_Kuliah == "3,5"'))
+    df_funnel = df_funnel.append({"attributes": '3.5 Tahun', "total": count}, ignore_index=True)
+
+    with col2: 
+        st.table(df_funnel)
+
+    fig = go.Figure(go.Funnel(
+        y = df_funnel["attributes"],
+        x = df_funnel["total"],
+        textposition = "inside",
+        textinfo = "value+percent initial",
+        opacity = 0.65, marker = {"color": ["deepskyblue", "lightsalmon", "tan", "teal", "silver"],
+        "line": {"width": [4, 2, 2, 3, 1, 1], "color": ["wheat", "wheat", "blue", "wheat", "wheat"]}},
+        connector = {"line": {"color": "royalblue", "dash": "dot", "width": 3}})
+        )
+        
+    st.plotly_chart(fig)
 
 def app():
     st.markdown("# Halaman Analisis Dataset")
@@ -228,3 +263,8 @@ def app():
 
     st.markdown("#### Sankey Diagram")
     sankey_dataset(df)
+
+    space()
+
+    st.markdown("#### Funnel Chart")
+    funnel_three_and_a_half_year(df)
