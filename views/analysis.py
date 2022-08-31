@@ -27,7 +27,7 @@ def sankey_dataset(df):
             columns
         )
 
-    df["Biaya"] = df.Biaya.map({"Beasiswa" : "Beasiswa", "Orang Tua" : "Ortu"})
+    df["Biaya"] = df.Biaya.map({"Beasiswa" : "Beasiswa", "Orang Tua" : "Ortu", "Kosong": "Tidak Diisi"})
     df["UKM"] = df.UKM.map({"UKM_1" : "UKM 1", "UKM_2" : "UKM 2", "UKM_3" : "UKM 3", "UKM_4" : "UKM 4", "Tidak" : "Tidak Ada"})
     df["Organisasi_Kampus"] = df.Organisasi_Kampus.map({"Ya" : "Ya", "Tidak" : "Tidak Ikut"})
 
