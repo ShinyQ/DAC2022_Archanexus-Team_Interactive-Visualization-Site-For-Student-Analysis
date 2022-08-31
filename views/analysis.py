@@ -17,7 +17,7 @@ def sankey_dataset(df):
         'Biaya', 'Tgl_Daftar_Kuliah', 'Alamat', 
         'UKM', 'Organisasi_Kampus', 'Fakultas', 'Lama_Kuliah'
     ]
-    col1, col2 = st.columns([10, 2])
+    col1, col2 = st.columns([11, 1])
 
     with col1:
         options = st.multiselect(
@@ -69,9 +69,9 @@ def sankey_dataset(df):
         fig.update_layout(
             font_size = 16, 
             height=400, 
-            width=1000, 
+            width=1100, 
             margin_pad=0,
-            margin=dict(l=0, r=0, t=20, b=0),
+            margin=dict(l=0, r=0, t=20, b=20),
         )
 
         st.plotly_chart(fig)
@@ -99,7 +99,7 @@ def pie_ukm_fakultas(df):
         fig.update_layout(
             font_size = 16, 
             height=300, 
-            width=400, 
+            width=450, 
             margin=dict(l=0, r=0, t=0, b=0),
             margin_pad=0
         )
@@ -133,7 +133,7 @@ def pie_alamat_fakultas(df):
         fig.update_layout(
             font_size = 16, 
             height=300, 
-            width=400, 
+            width=450, 
             margin=dict(l=0, r=0, t=0, b=0),
             margin_pad=0
         )
@@ -246,8 +246,8 @@ def barplot_test(df):
     ))
 
     fig.update_layout(barmode='stack')
-
     st.plotly_chart(fig)
+
 
 def app():
     st.markdown("# Halaman Analisis Dataset")
