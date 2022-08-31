@@ -17,7 +17,8 @@ def sankey_dataset(df):
         'Biaya', 'Tgl_Daftar_Kuliah', 'Alamat', 
         'UKM', 'Organisasi_Kampus', 'Fakultas', 'Lama_Kuliah'
     ]
-    col1, col2 = st.columns([11, 1])
+
+    col1, _ = st.columns([11, 1])
 
     with col1:
         options = st.multiselect(
@@ -146,106 +147,62 @@ def pie_alamat_fakultas(df):
 
 
 def barplot_year_description(df):
-    col1, col2 = st.columns([3, 9])
-
-
-    with col1:
-         choose_columns = st.selectbox('Silahkan Pilih Kolom', df["Tgl_Daftar_Kuliah"].unique())
-
-    df_temp = df.loc[lambda df: df['Tgl_Daftar_Kuliah'] == choose_columns]
+    col1, col2, _ = st.columns([9, 4, 2])
 
     columns = list(df.columns)
     columns.remove('Nama')
     columns.remove('Tgl_Daftar_Kuliah')
 
-    temp = []
+    with col1:
+        options = st.multiselect('Pilih Urutan Kolom', columns, columns)
 
-    for column in columns:
+    with col2:
+        choose_columns = st.selectbox('Silahkan Pilih Kolom', df["Tgl_Daftar_Kuliah"].unique())
+
+
+    df_temp = df.loc[lambda df: df['Tgl_Daftar_Kuliah'] == choose_columns]
+    df_temp = df_temp.loc[: , options]
+
+    items = []
+
+    for i, column in enumerate(options):
         df_selected = dict(df_temp[column].value_counts())
-        df_items = list(df_selected.keys())
-        df_values = list(df_selected.values())
-
-        temp.append([column, df_items, df_values])
+        items.append([i, list(df_selected.keys()), list(df_selected.values())])
 
     fig = go.Figure()
+    
+    for i, data in enumerate(items):
+        arr_key = data[0]
 
-    for data in temp:
-        fig.add_trace(px.bar(
-            y=columns,
-            x=data[2],
-            color=data[1],
-            orientation='h',
-            # marker=dict(
-            #     color='rgba(246, 78, 139, 0.6)',
-            #     line=dict(color='rgba(246, 78, 139, 1.0)', width=3)
-            # )
-        ))
+        for i in range(len(data[1])):    
+            temp_arr = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+            temp_arr[arr_key] = data[2][i]
 
+            fig.add_trace(go.Bar(
+                y=options,
+                x=temp_arr,
+                name=data[1][i],
+                orientation='h',
+                text=data[1][i] + " (" + str(round(data[2][i] / len(df_temp), 2)) + "%) ",
+                hoverinfo="x",
+                hoverlabel=dict(
+                    bgcolor="white",
+                    font_size=16,
+                    font_family="Rockwell"
+                )
+            ))
 
     fig.update_layout(
         barmode='stack',
         font_size = 16, 
-        height=250, 
-        width=650, 
+        height=450, 
+        width=1050,
+        extendpiecolors=True,
         margin=dict(l=0, r=0, t=20, b=0),
-        margin_pad=0
+        showlegend=False,
+        hoverlabel_align = 'left',
     )
 
-    st.plotly_chart(fig)
-
-
-def barplot_test(df):
-    columns = list(df.columns)
-    columns.remove('Nama')
-    columns.remove('Tgl_Daftar_Kuliah')
-    
-    fig = go.Figure()
-    fig.add_trace(go.Bar(
-        y=columns,
-        x=[50, 0, 0, 0, 0, 0, 0, 0, 0],
-        name='Perempuan',
-        orientation='h',
-        marker=dict(
-            color='rgba(246, 78, 139, 0.6)',
-            line=dict(color='rgba(246, 78, 139, 1.0)', width=3)
-        )
-    ))
-
-
-    fig.add_trace(go.Bar(
-        y=columns,
-        x=[20, 0, 0, 0, 0, 0, 0, 0, 0],
-        name='Laki-Laki',
-        orientation='h',
-        marker=dict(
-            color='rgba(21, 78, 149, 0.6)',
-            line=dict(color='rgba(216, 78, 239, 1.0)', width=3)
-        )
-    ))
-
-    fig.add_trace(go.Bar(
-        y=columns,
-        x=[0, 45, 0, 0, 0, 0, 0, 0, 0],
-        name='Orang Tua',
-        orientation='h',
-        marker=dict(
-            color='rgba(11, 78, 149, 0.6)',
-            line=dict(color='rgba(116, 78, 239, 1.0)', width=3)
-        )
-    ))
-    
-    fig.add_trace(go.Bar(
-        y=columns,
-        x=[0, 25, 0, 0, 0, 0, 0, 0, 0],
-        name='Kos',
-        orientation='h',
-        marker=dict(
-            color='rgba(221, 98, 249, 0.6)',
-            line=dict(color='rgba(216, 78, 239, 1.0)', width=3)
-        )
-    ))
-
-    fig.update_layout(barmode='stack')
     st.plotly_chart(fig)
 
 
@@ -265,8 +222,8 @@ def app():
     space()
 
     st.markdown("#### Analisis Kolom Berdasarkan Tahun")
-    # barplot_year_description(df)
-    barplot_test(df)
+    barplot_year_description(df)
+
     space()
 
     st.markdown("#### Sankey Diagram")
