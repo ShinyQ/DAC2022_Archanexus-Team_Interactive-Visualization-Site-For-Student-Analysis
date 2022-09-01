@@ -241,6 +241,21 @@ def funnel_three_and_a_half_year(df):
         
     st.plotly_chart(fig)
 
+def boxplot_year(df):
+    col1, col2 = st.columns([3,9])
+    columns = [
+        'Tinggal_Dengan', 'Status_Kerja', 
+        'Biaya', 'UKM', 'Organisasi_Kampus', 'Fakultas'
+    ]
+    with col1:
+        choose_column = st.selectbox('Silahkan Pilih Kolom', columns)
+    fig = px.box(
+        df, x=choose_column, y="Lama_Kuliah", color=choose_column,
+        notched=True)
+
+    with col2:
+        st.plotly_chart(fig)
+
 def app():
     st.markdown("# Halaman Analisis Dataset")
     st.write("Pada halaman ini ditampilkan analisis terkait data mahasiswa yang ada.")
@@ -268,3 +283,6 @@ def app():
 
     st.markdown("#### Funnel Chart")
     funnel_three_and_a_half_year(df)
+
+    st.markdown("#### Boxplot Lama Kuliah")
+    boxplot_year(df)
