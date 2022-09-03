@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
 
 def get_df():
     df = pd.read_csv('./static/Data_kualifikasi.csv', sep=';')
@@ -352,6 +353,50 @@ def boxplot_year(df_pure):
     st.plotly_chart(fig)    
 
 
+def wordcloud_name(df):
+    # Inisialisasi Set Untuk Key Kata Dan Value Jumlah Kata
+    word = {}
+
+    # Perulangan Setiap Kata Dan Perhitungannya Dalam Sebuah Dataframe
+    # Untuk Dimasukkan Kedalam Set
+    for i in range(len(df)):
+        temp_text = df.loc[i]['Nama']
+        temp_split = temp_text.split(' ')
+        temp_set = list(set(temp_split))
+
+        for j in range(len(temp_set)):
+            try:
+                word[temp_set[j]] += 1
+            except:
+                word[temp_set[j]] = 1
+
+    # Menginisialisasi Dan Menampilkan Wordcloud Berdasarkan Frekuensi Kata Dan Menampilkannya
+    wordcloud = WordCloud(
+        width=1600, 
+        height=800, 
+        max_words=250, 
+        max_font_size=150, 
+        background_color='white'
+    ).generate_from_frequencies(word)
+
+    plt.figure(figsize=(15, 12))
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.axis("off")
+
+    sorted_word = dict(sorted(word.items(), key=lambda item: item[1], reverse=True))
+    sorted_word = pd.DataFrame(sorted_word.items(), columns=['Nama', 'Jumlah'])
+    sorted_word = sorted_word.head(10)
+
+    col1, col2, _ = st.columns([7, 4, 1])
+
+    with col1:
+        st.pyplot(plt)
+
+    with col2:
+        st.markdown("##### &nbsp;Nama Terbanyak Dalam Dataset:")
+        st.table(sorted_word)
+
+
 def app():
     st.markdown("# Halaman Analisis Dataset")
     st.write("Pada halaman ini ditampilkan analisis terkait data mahasiswa yang ada.")
@@ -409,3 +454,8 @@ def app():
                 mahasiswa terhadap lama kuliahnya.""")
     
     boxplot_year(df)
+
+    space()
+
+    st.markdown("#### Wordcloud Nama Mahasiswa")
+    wordcloud_name(df)
