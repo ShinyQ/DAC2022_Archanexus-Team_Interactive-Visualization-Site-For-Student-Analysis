@@ -296,27 +296,46 @@ def app():
     df = get_df()
 
     st.markdown("#### Persentase Fakultas Berdasarkan UKM Yang Diikuti")
+    st.markdown("""Pie chart di bawah ini menampilkan persebaran fakultas anggota dari masing-masing ukm. 
+                Hasil menunjukkan bahwa semua fakultas tersebar rata pada tiap-tiap UKM.""")
+
     pie_ukm_fakultas(df)
 
     space()
 
     st.markdown("#### Persentase Kota Tinggal Berdasarkan Fakultas")
+    st.markdown("""Pie chart di bawah ini menampilkan persebaran kota tinggal anggota dari tiap-tiap fakultas. 
+                Hasil menunjukkan bahwa persebaran kota tinggal mahasiswa tersebar rata pada setiap fakultas.""")
     pie_alamat_fakultas(df)
 
     space()
 
     st.markdown("#### Analisis Kolom Berdasarkan Tahun")
+    st.markdown("""Diagram batang dibawah menunjukkan persebaran data pada dataset untuk tiap tahun pendaftaran 
+                mahasiswa pada Universitas XYZ. Terdapat tiga tahun pendaftaran yang ada pada dataset ini yaitu 
+                2007, 2008, dan 2009. User dapat memilih untuk menampilkan atribut tertentu dengan mengatur Urutan
+                Kolom. Ketika diagram batang di-hover, akan memunculkan jumlah dari data tersebut.""")
     barplot_year_description(df)
 
     space()
 
     st.markdown("#### Sankey Diagram")
+    st.markdown("""Sankey diagram dibawah ini mendeskripsikan alir atau laju dari berbagai atribut pada dataset ini. 
+                Pada diagram ini terdapat informasi incoming dan outcoming flow serta jumlah dari suatu “source” menuju “target” 
+                dari tiap-tiap entitas yang terdapat pada setiap atribut pada dataset. User dapat memilih untuk menampilkan 
+                attribut tertentu dengan mengatur Urutan Kolom.""")
     sankey_dataset(df)
 
     space()
 
     st.markdown("#### Funnel Chart")
+    st.markdown("""Funnel chart di bawah ini akan menampilkan berapa persentase dan jumlah mahasiswa yang lulus 3.5 
+                tahun dari kategori yang ditentukan oleh user. Terdapat tiga kategori yang dapat diubah oleh user, yaitu mahasiswa 
+                tersebut tinggal dengan siapa, status kerja mahasiswa, dan sumber biaya perkuliahan mahasiswa.""")
     funnel_three_and_a_half_year(df)
 
     st.markdown("#### Boxplot Lama Kuliah")
+    st.markdown("""Box plot ini dapat dipilih oleh user dari berbagai atribut yang ada pada dataset terhadap Lama Kuliah 
+                mahasiswa. Dari box plot ini, diharapkan user dapat mengetahui bagaimana pengaruh atribut lain seperti status kerja 
+                mahasiswa terhadap lama kuliahnya.""")
     boxplot_year(df)
