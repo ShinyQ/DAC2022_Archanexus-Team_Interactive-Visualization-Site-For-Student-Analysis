@@ -21,7 +21,7 @@ def sankey_dataset(df):
         'UKM', 'Organisasi_Kampus', 'Fakultas', 'Lama_Kuliah'
     ]
 
-    col1, _ = st.columns([11, 1])
+    col1, _ = st.columns([3, 1])
 
     with col1:
         options = st.multiselect(
@@ -171,8 +171,7 @@ def barplot_year_description(df):
         options = st.multiselect('Pilih Urutan Kolom', columns, columns)
 
     with col2:
-        choose_columns = st.selectbox(
-            'Silahkan Pilih Kolom', df["Tgl_Daftar_Kuliah"].unique())
+        choose_columns = st.selectbox('Pilih Tahun Dataset', df["Tgl_Daftar_Kuliah"].unique())
 
     df_temp = df.loc[lambda df: df['Tgl_Daftar_Kuliah'] == choose_columns]
     df_temp = df_temp.loc[:, options]
@@ -295,7 +294,7 @@ def app():
     st.write("Pada halaman ini ditampilkan analisis terkait data mahasiswa yang ada.")
     df = get_df()
 
-    st.markdown("#### Persentase Fakultas Berdasarkan UKM Yang Diikuti")
+    st.markdown("#### Bagaimana Persentase Fakultas Berdasarkan UKM Yang Diikuti?")
     st.markdown("""Pie chart di bawah ini menampilkan persebaran fakultas anggota dari masing-masing ukm. 
                 Hasil menunjukkan bahwa semua fakultas tersebar rata pada tiap-tiap UKM.""")
 
@@ -303,18 +302,21 @@ def app():
 
     space()
 
-    st.markdown("#### Persentase Kota Tinggal Berdasarkan Fakultas")
+
+    st.markdown("#### Bagaimana Persentase Kota Tinggal Berdasarkan Fakultas?")
     st.markdown("""Pie chart di bawah ini menampilkan persebaran kota tinggal anggota dari tiap-tiap fakultas. 
                 Hasil menunjukkan bahwa persebaran kota tinggal mahasiswa tersebar rata pada setiap fakultas.""")
+
     pie_alamat_fakultas(df)
 
     space()
 
-    st.markdown("#### Analisis Kolom Berdasarkan Tahun")
+    st.markdown("#### Bagaimana Persebaran Data Setiap Kolom Berdasarkan Tahun?")
     st.markdown("""Diagram batang dibawah menunjukkan persebaran data pada dataset untuk tiap tahun pendaftaran 
                 mahasiswa pada Universitas XYZ. Terdapat tiga tahun pendaftaran yang ada pada dataset ini yaitu 
                 2007, 2008, dan 2009. User dapat memilih untuk menampilkan atribut tertentu dengan mengatur Urutan
                 Kolom. Ketika diagram batang di-hover, akan memunculkan jumlah dari data tersebut.""")
+
     barplot_year_description(df)
 
     space()
@@ -328,10 +330,11 @@ def app():
 
     space()
 
-    st.markdown("#### Funnel Chart")
+    st.markdown("#### Apa Saja Pengaruh Mahasiswa Dapat Lulus 3.5 Tahun ?")
     st.markdown("""Funnel chart di bawah ini akan menampilkan berapa persentase dan jumlah mahasiswa yang lulus 3.5 
                 tahun dari kategori yang ditentukan oleh user. Terdapat tiga kategori yang dapat diubah oleh user, yaitu mahasiswa 
                 tersebut tinggal dengan siapa, status kerja mahasiswa, dan sumber biaya perkuliahan mahasiswa.""")
+
     funnel_three_and_a_half_year(df)
 
     st.markdown("#### Boxplot Lama Kuliah")
