@@ -9,6 +9,22 @@ def get_df():
     return df
 
 
+def get_box_plot_data(labels, bp):
+    rows_list = []
+
+    for i in range(len(labels)):
+        dict1 = {}
+        dict1['label'] = labels[i]
+        dict1['lower_whisker'] = bp['whiskers'][i*2].get_ydata()[1]
+        dict1['lower_quartile'] = bp['boxes'][i].get_ydata()[1]
+        dict1['median'] = bp['medians'][i].get_ydata()[1]
+        dict1['upper_quartile'] = bp['boxes'][i].get_ydata()[2]
+        dict1['upper_whisker'] = bp['whiskers'][(i*2)+1].get_ydata()[1]
+        rows_list.append(dict1)
+
+    return pd.DataFrame(rows_list)
+
+
 def space():
     st.write("\n")
     st.write("\n")
@@ -221,55 +237,77 @@ def barplot_year_description(df):
 
 
 def funnel_three_and_a_half_year(df):
-    col1, col2 = st.columns([3, 9])
+
+    col1, col2, col3, _ = st.columns([3, 3, 3, 3])
 
     with col1:
-        choose_tinggal = st.selectbox(
-            'Silahkan Pilih Tinggal Dengan', df["Tinggal_Dengan"].unique())
-        choose_status = st.selectbox(
-            'Silahkan Pilih Status Kerja', df["Status_Kerja"].unique())
-        choose_biaya = st.selectbox(
-            'Silahkan Pilih Biaya', df["Biaya"].unique())
+        choose_tinggal = st.selectbox('Silahkan Pilih Tinggal Dengan', df["Tinggal_Dengan"].unique())
+        space()
+    
+    with col2:
+        choose_status = st.selectbox('Silahkan Pilih Status Kerja', df["Status_Kerja"].unique())
+    
+    with col3:
+        choose_biaya = st.selectbox('Silahkan Pilih Biaya', df["Biaya"].unique())
+    
+    df_funnel = pd.DataFrame(columns=["Kolom", "Jumlah"])
 
-    df_funnel = pd.DataFrame(columns=["attributes", "total"])
+    df_funnel = df_funnel.append({
+        "Kolom": f'Tinggal Dengan: {choose_tinggal}',
+        "Jumlah": df["Tinggal_Dengan"].value_counts()[choose_tinggal]
+    }, ignore_index=True)
 
-    df_funnel = df_funnel.append({"attributes": f'Tinggal Dengan: {choose_tinggal}',
-                                 "total": df["Tinggal_Dengan"].value_counts()[choose_tinggal]}, ignore_index=True)
+    count = len(df.query(f'Tinggal_Dengan == "{choose_tinggal}" and Status_Kerja == "{choose_status}"'))
+    
+    df_funnel = df_funnel.append({
+        "Kolom": f'Status kerja: {choose_status}', 
+        "Jumlah": count
+    }, ignore_index=True)
 
-    count = len(df.query(
-        f'Tinggal_Dengan == "{choose_tinggal}" and Status_Kerja == "{choose_status}"'))
-    df_funnel = df_funnel.append(
-        {"attributes": f'Status kerja: {choose_status}', "total": count}, ignore_index=True)
+    count = len(df.query(f'Tinggal_Dengan == "{choose_tinggal}" and Status_Kerja == "{choose_status}" and Biaya == "{choose_biaya}"'))
+    
+    df_funnel = df_funnel.append({
+        "Kolom": f'Dibiayai oleh: {choose_biaya}', 
+        "Jumlah": count
+    }, ignore_index=True)
 
-    count = len(df.query(
-        f'Tinggal_Dengan == "{choose_tinggal}" and Status_Kerja == "{choose_status}" and Biaya == "{choose_biaya}"'))
-    df_funnel = df_funnel.append(
-        {"attributes": f'Dibiayai oleh: {choose_biaya}', "total": count}, ignore_index=True)
+    count = len(df.query(f'Tinggal_Dengan == "{choose_tinggal}" and Status_Kerja == "{choose_status}" and Biaya == "{choose_biaya}" and Lama_Kuliah == "3,5"'))
+    
+    df_funnel = df_funnel.append({
+        "Kolom": '3.5 Tahun', 
+        "Jumlah": count
+    }, ignore_index=True)
 
-    count = len(df.query(
-        f'Tinggal_Dengan == "{choose_tinggal}" and Status_Kerja == "{choose_status}" and Biaya == "{choose_biaya}" and Lama_Kuliah == "3,5"'))
-    df_funnel = df_funnel.append(
-        {"attributes": '3.5 Tahun', "total": count}, ignore_index=True)
+    col1, col2, _ = st.columns([5, 4, 1])
+   
+    with col1:
+        fig = go.Figure(go.Funnel(
+            y=df_funnel["Kolom"],
+            x=df_funnel["Jumlah"],
+            textposition="inside",
+            textinfo="value+percent initial",
+             marker={"color": ["deepskyblue", "lightsalmon", "tan", "teal", "silver"],
+                    },
+            )
+        )
+
+        fig.update_layout(
+            font_size=15,
+            height=300,
+            width=600,
+            margin=dict(l=0, r=0, t=0, b=0),
+            margin_pad=0
+        )
+
+        st.plotly_chart(fig)
 
     with col2:
         st.table(df_funnel)
 
-    fig = go.Figure(go.Funnel(
-        y=df_funnel["attributes"],
-        x=df_funnel["total"],
-        textposition="inside",
-        textinfo="value+percent initial",
-        opacity=0.65, marker={"color": ["deepskyblue", "lightsalmon", "tan", "teal", "silver"],
-                              "line": {"width": [4, 2, 2, 3, 1, 1], "color": ["wheat", "wheat", "blue", "wheat", "wheat"]}},
-        connector={"line": {"color": "royalblue", "dash": "dot", "width": 3}})
-    )
 
-    st.plotly_chart(fig)
+def boxplot_year(df_pure):
 
-
-def boxplot_year(df):
-    col1, col2 = st.columns([3, 9])
-
+    df = df_pure.copy()
     df["Lama_Kuliah"] = df["Lama_Kuliah"].str.replace(',', '.')
     df['Lama_Kuliah'] = df['Lama_Kuliah'].astype(float)
 
@@ -277,16 +315,41 @@ def boxplot_year(df):
         'Tinggal_Dengan', 'Status_Kerja',
         'Biaya', 'UKM', 'Organisasi_Kampus', 'Fakultas'
     ]
-
+    
+    col1, _ = st.columns([3, 9])
+    
     with col1:
         choose_column = st.selectbox('Silahkan Pilih Kolom', columns)
 
     fig = px.box(
-        df, x=choose_column, y="Lama_Kuliah", color=choose_column,
-        notched=True)
+        df, x=choose_column, y="Lama_Kuliah", 
+        color=choose_column,
+        labels={
+            "Lama_Kuliah": "Lama Kuliah",
+            f'{choose_column}': choose_column.replace('_', ' ')
+        }
+    )
 
-    with col2:
-        st.plotly_chart(fig)
+    st.plotly_chart(fig)
+
+    fig = px.box(
+        df_pure, x=columns, y="Lama_Kuliah",
+        notched=True,
+        labels={
+            "Lama_Kuliah": "Lama Kuliah",
+            "value": "Jenis Kolom"
+        }
+    )
+    
+    fig.update_layout(
+        font_size=14,
+        height=450,
+        width=1100,
+        margin=dict(l=0, r=0, t=0, b=0),
+        margin_pad=0
+    )
+
+    st.plotly_chart(fig)    
 
 
 def app():
@@ -326,6 +389,7 @@ def app():
                 Pada diagram ini terdapat informasi incoming dan outcoming flow serta jumlah dari suatu “source” menuju “target” 
                 dari tiap-tiap entitas yang terdapat pada setiap atribut pada dataset. User dapat memilih untuk menampilkan 
                 attribut tertentu dengan mengatur Urutan Kolom.""")
+    
     sankey_dataset(df)
 
     space()
@@ -337,8 +401,11 @@ def app():
 
     funnel_three_and_a_half_year(df)
 
+    space()
+
     st.markdown("#### Boxplot Lama Kuliah")
     st.markdown("""Box plot ini dapat dipilih oleh user dari berbagai atribut yang ada pada dataset terhadap Lama Kuliah 
                 mahasiswa. Dari box plot ini, diharapkan user dapat mengetahui bagaimana pengaruh atribut lain seperti status kerja 
                 mahasiswa terhadap lama kuliahnya.""")
+    
     boxplot_year(df)
