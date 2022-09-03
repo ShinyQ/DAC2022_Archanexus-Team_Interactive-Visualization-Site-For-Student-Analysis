@@ -18,7 +18,7 @@ def sankey_dataset(df):
         'UKM', 'Organisasi_Kampus', 'Fakultas', 'Lama_Kuliah'
     ]
 
-    col1, _ = st.columns([11, 1])
+    col1, _ = st.columns([3, 1])
 
     with col1:
         options = st.multiselect(
@@ -157,7 +157,7 @@ def barplot_year_description(df):
         options = st.multiselect('Pilih Urutan Kolom', columns, columns)
 
     with col2:
-        choose_columns = st.selectbox('Silahkan Pilih Kolom', df["Tgl_Daftar_Kuliah"].unique())
+        choose_columns = st.selectbox('Pilih Tahun Dataset', df["Tgl_Daftar_Kuliah"].unique())
 
 
     df_temp = df.loc[lambda df: df['Tgl_Daftar_Kuliah'] == choose_columns]
@@ -237,7 +237,7 @@ def funnel_three_and_a_half_year(df):
         opacity = 0.65, marker = {"color": ["deepskyblue", "lightsalmon", "tan", "teal", "silver"],
         "line": {"width": [4, 2, 2, 3, 1, 1], "color": ["wheat", "wheat", "blue", "wheat", "wheat"]}},
         connector = {"line": {"color": "royalblue", "dash": "dot", "width": 3}})
-        )
+    )
         
     st.plotly_chart(fig)
 
@@ -246,17 +246,17 @@ def app():
     st.write("Pada halaman ini ditampilkan analisis terkait data mahasiswa yang ada.")
     df = get_df()
 
-    st.markdown("#### Persentase Fakultas Berdasarkan UKM Yang Diikuti")
+    st.markdown("#### Bagaimana Persentase Fakultas Berdasarkan UKM Yang Diikuti?")
     pie_ukm_fakultas(df)
 
     space()
 
-    st.markdown("#### Persentase Kota Tinggal Berdasarkan Fakultas")
+    st.markdown("#### Bagaimana Persentase Kota Tinggal Berdasarkan Fakultas?")
     pie_alamat_fakultas(df)
     
     space()
 
-    st.markdown("#### Analisis Kolom Berdasarkan Tahun")
+    st.markdown("#### Bagaimana Persebaran Data Setiap Kolom Berdasarkan Tahun?")
     barplot_year_description(df)
 
     space()
@@ -266,5 +266,5 @@ def app():
 
     space()
 
-    st.markdown("#### Funnel Chart")
+    st.markdown("#### Apa Saja Pengaruh Mahasiswa Dapat Lulus 3.5 Tahun ?")
     funnel_three_and_a_half_year(df)
