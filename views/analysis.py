@@ -474,26 +474,43 @@ def app():
 
     space()
 
-    st.markdown("#### Apa Saja Pengaruh Mahasiswa Dapat Lulus 3,5 Tahun ?")
-    st.markdown("""Funnel chart di bawah ini akan menampilkan berapa persentase dan jumlah mahasiswa yang lulus 3,5 
-                tahun dari kategori yang ditentukan oleh user. Terdapat tiga kategori yang dapat diubah oleh user, yaitu mahasiswa 
-                tersebut tinggal dengan siapa, status kerja mahasiswa, dan sumber biaya perkuliahan mahasiswa. Dari riset yang telah dilakukan,
-                mahasiswa yang paling banyak lulus dalam waktu 3,5 tahun yaitu mahasiswa dengan kategori tinggal dengan Kos, 
-                mahasiswa bekerja, dan status pembiayaan yang tidak diisi sebanyak 98 mahasiswa.""")
+    st.markdown('''
+        #### Apa Saja Pengaruh Mahasiswa Dapat Lulus 3,5 Tahun ?
+
+        Funnel chart di bawah ini akan menampilkan berapa persentase dan jumlah mahasiswa yang lulus 3,5 
+        tahun dari kategori yang ditentukan oleh user. Terdapat tiga kategori yang dapat diubah oleh user, yaitu mahasiswa 
+        tersebut tinggal dengan siapa, status kerja mahasiswa, dan sumber biaya perkuliahan mahasiswa. Dari riset yang telah dilakukan,
+        mahasiswa yang paling banyak lulus dalam waktu 3,5 tahun yaitu mahasiswa dengan kategori tinggal dengan Kos, 
+        mahasiswa bekerja, dan status pembiayaan yang tidak diisi sebanyak 98 mahasiswa.
+    ''')
 
     funnel_three_and_a_half_year(df)
 
     space()
 
-    st.markdown(
-        "#### Bagaimana Pengaruh Atribut Lain pada Dataset Terhadap Lama Kuliah Mahasiswa?")
-    st.markdown("""Box plot ini dapat dipilih oleh user dari berbagai atribut yang ada pada dataset terhadap Lama Kuliah 
-                mahasiswa. Dari box plot ini, diharapkan user dapat mengetahui bagaimana pengaruh atribut lain seperti status kerja 
-                mahasiswa terhadap lama kuliahnya.""")
+    st.markdown('''
+        #### Bagaimana Pengaruh Atribut Lain pada Dataset Terhadap Lama Kuliah Mahasiswa?
+
+        Box plot ini dapat dipilih oleh user dari berbagai atribut yang ada pada dataset terhadap Lama Kuliah 
+        mahasiswa. Dari box plot ini, diharapkan user dapat mengetahui bagaimana pengaruh atribut lain seperti status kerja 
+        mahasiswa terhadap lama kuliahnya.
+
+        Berikut nilai rata-rata lama kuliah mahasiswa yang paling cepat dibandingkan entitas lain pada setiap atribut:
+        - Mahasiswa yang tinggal dengan Orang Tua memiliki rata-rata lama kuliah sebesar 5,23 tahun.
+        - Mahasiswa yang belum bekerja memiliki rata-rata lama kuliah sebesar 5,23 tahun.
+        - Mahasiswa yang tidak mengisi sumber pembiayaan kuliah memiliki rata-rata lama kuliah sebesar 5,22 tahun.
+        - Mahasiswa yang mengikuti UKM 2 memiliki rata-rata lama kuliah sebesar 5,233 tahun.
+        - Mahasiswa yang tidak mengikuti organisasi kampus memiliki rata-rata lama kuliah sebesar 5,23 tahun.
+        - Mahasiswa yang berasal dari FT memiliki rata-rata lama kuliah sebesar 5,24 tahun.
+    ''')
 
     boxplot_year(df)
 
     space()
 
-    st.markdown("#### Wordcloud Nama Mahasiswa")
+    st.markdown('''
+        #### Wordcloud Nama Mahasiswa
+
+        Pada wordcloud dibawah ini terlihat nama mahasiswa yang paling banyak terdapat pada dataset.
+    ''')
     wordcloud_name(df)
