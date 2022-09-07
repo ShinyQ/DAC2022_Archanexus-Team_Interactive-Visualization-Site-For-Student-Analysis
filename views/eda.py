@@ -9,7 +9,7 @@ import numpy as np
 import random
 
 def get_df():
-    df = pd.read_csv('./static/Data_kualifikasi.csv', sep=';')
+    df = pd.read_csv('./static/Data_kualifikasi_nan.csv', sep=';')
     df['Tgl_Daftar_Kuliah'] = df['Tgl_Daftar_Kuliah'].apply(str)
     df.drop('Nama', axis=1, inplace=True)
 

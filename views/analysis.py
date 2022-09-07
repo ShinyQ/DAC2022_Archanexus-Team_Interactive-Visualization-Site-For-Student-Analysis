@@ -354,11 +354,8 @@ def boxplot_year(df_pure):
 
 
 def wordcloud_name(df):
-    # Inisialisasi Set Untuk Key Kata Dan Value Jumlah Kata
     word = {}
 
-    # Perulangan Setiap Kata Dan Perhitungannya Dalam Sebuah Dataframe
-    # Untuk Dimasukkan Kedalam Set
     for i in range(len(df)):
         temp_text = df.loc[i]['Nama']
         temp_split = temp_text.split(' ')
@@ -370,7 +367,6 @@ def wordcloud_name(df):
             except:
                 word[temp_set[j]] = 1
 
-    # Menginisialisasi Dan Menampilkan Wordcloud Berdasarkan Frekuensi Kata Dan Menampilkannya
     wordcloud = WordCloud(
         width=1600, 
         height=800, 
@@ -429,16 +425,6 @@ def app():
 
     space()
 
-    st.markdown("#### Sankey Diagram")
-    st.markdown("""Sankey diagram dibawah ini mendeskripsikan alir atau laju dari berbagai atribut pada dataset ini. 
-                Pada diagram ini terdapat informasi incoming dan outcoming flow serta jumlah dari suatu “source” menuju “target” 
-                dari tiap-tiap entitas yang terdapat pada setiap atribut pada dataset. User dapat memilih untuk menampilkan 
-                attribut tertentu dengan mengatur Urutan Kolom.""")
-    
-    sankey_dataset(df)
-
-    space()
-
     st.markdown("#### Apa Saja Pengaruh Mahasiswa Dapat Lulus 3.5 Tahun ?")
     st.markdown("""Funnel chart di bawah ini akan menampilkan berapa persentase dan jumlah mahasiswa yang lulus 3.5 
                 tahun dari kategori yang ditentukan oleh user. Terdapat tiga kategori yang dapat diubah oleh user, yaitu mahasiswa 
@@ -459,3 +445,11 @@ def app():
 
     st.markdown("#### Wordcloud Nama Mahasiswa")
     wordcloud_name(df)
+
+    st.markdown("#### Sankey Diagram")
+    st.markdown("""Sankey diagram dibawah ini mendeskripsikan alir atau laju dari berbagai atribut pada dataset ini. 
+                Pada diagram ini terdapat informasi incoming dan outcoming flow serta jumlah dari suatu “source” menuju “target” 
+                dari tiap-tiap entitas yang terdapat pada setiap atribut pada dataset. User dapat memilih untuk menampilkan 
+                attribut tertentu dengan mengatur Urutan Kolom.""")
+    
+    sankey_dataset(df)
