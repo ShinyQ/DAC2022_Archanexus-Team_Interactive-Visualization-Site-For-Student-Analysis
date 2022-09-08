@@ -1,10 +1,11 @@
 import streamlit as st
 import pandas as pd
 
+
 def app():
     st.markdown("# Halaman Dashboard")
     df = pd.read_csv('static/Data_kualifikasi.csv', sep=';')
-    
+
     st.markdown('''
         Data Analysis Competition (DAC) adalah kompetisi berskala nasional yang
         diselenggarakan oleh Himpunan Mahasiswa Teknik Informatika Universitas
@@ -41,5 +42,5 @@ def app():
         | UKM               | Jenis UKM yang diikuti ketika kuliah              |
         | Organisasi_Kampus | Apakah mahasiswa mengikuti organisasi kampus      |
         | Lama_Kuliah       | Lama mahasiswa menyelesaikan kuliah (dalam tahun) |
+        | Fakultas          | Departemen Jurusan Mahasiswa                      |
     ''')
-

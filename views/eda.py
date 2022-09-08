@@ -32,7 +32,7 @@ def get_column_unique():
     fig.update_layout(
         font_size = 14, 
         height=400, 
-        width=650, 
+        width=500, 
         margin=dict(l=0, r=15, t=25, b=15),
         showlegend=False
     )
@@ -73,7 +73,7 @@ def get_column_distribution(df):
 
 def app():
     pd.set_option('display.max_columns', None)
-    st.markdown("# Halaman Exploratory Data Analysis")
+    st.markdown("# Halaman Eksplorasi Dataset")
 
     df = get_df()
     st.markdown(f'Total Dataset: {len(df)}')
