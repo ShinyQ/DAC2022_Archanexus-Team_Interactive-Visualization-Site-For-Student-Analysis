@@ -9,7 +9,7 @@ def app():
     st.write("##### 1. Import Dataset")
     st.code('''df = pd.read_csv("./static/Data_kualifikasi.csv", sep=";")\ndf = df.drop('Nama', axis=1)''', language='python')
 
-    df = pd.read_csv("./static/Data_kualifikasi.csv", sep=";")
+    df = pd.read_csv("./static/Data_kualifikasi_nan.csv", sep=";")
     df = df.drop('Nama', axis=1)
 
     st.table(df.sample(8))
@@ -18,6 +18,13 @@ def app():
     columns = df.columns
     st.code('columns = df.columns', language='python')
     st.write(columns)
+
+    df = pd.read_csv("./static/Data_kualifikasi.csv", sep=";")
+    df = df.drop('Nama', axis=1)
+
+    st.write("##### 3. Mengisi Data Kosong Dengan Kategori Baru")
+    st.code('df.fillna("Kosong", inplace=True)')
+    st.table(df.sample(8))
 
     st.write("##### 4. Mengubah Data Menjadi Label Encoding")
     st.code('''

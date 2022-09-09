@@ -50,10 +50,8 @@ def sankey_dataset(df):
             columns
         )
 
-    df["Biaya"] = df.Biaya.map(
-        {"Beasiswa": "Beasiswa", "Orang Tua": "Ortu", "Kosong": "Tidak Diisi"})
-    df["UKM"] = df.UKM.map({"UKM_1": "UKM 1", "UKM_2": "UKM 2",
-                           "UKM_3": "UKM 3", "UKM_4": "UKM 4", "Tidak": "Tidak Ada"})
+    df["Biaya"] = df.Biaya.map({"Beasiswa": "Beasiswa", "Orang Tua": "Ortu", "Kosong": "Tidak Diisi"})
+    df["UKM"] = df.UKM.map({"UKM_1": "UKM 1", "UKM_2": "UKM 2","UKM_3": "UKM 3", "UKM_4": "UKM 4", "Tidak": "Tidak Ada"})
     df["Organisasi_Kampus"] = df.Organisasi_Kampus.map(
         {"Ya": "Ya", "Tidak": "Tidak Ikut"})
 
@@ -191,8 +189,7 @@ def barplot_year_description(df):
         options = st.multiselect('Pilih Urutan Kolom', columns, columns)
 
     with col2:
-        choose_columns = st.selectbox(
-            'Pilih Tahun Dataset', df["Tgl_Daftar_Kuliah"].unique())
+        choose_columns = st.selectbox('Pilih Tahun Dataset', df["Tgl_Daftar_Kuliah"].unique())
 
     df_temp = df.loc[lambda df: df['Tgl_Daftar_Kuliah'] == choose_columns]
     df_temp = df_temp.loc[:, options]
@@ -246,8 +243,7 @@ def funnel_three_and_a_half_year(df):
     col1, col2, col3, _ = st.columns([3, 3, 3, 3])
 
     with col1:
-        choose_tinggal = st.selectbox(
-            'Silahkan Pilih Tinggal Dengan', df["Tinggal_Dengan"].unique())
+        choose_tinggal = st.selectbox('Silahkan Pilih Tinggal Dengan', df["Tinggal_Dengan"].unique())
         space()
 
     with col2:
@@ -402,8 +398,7 @@ def wordcloud_name(df):
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
 
-    sorted_word = dict(
-        sorted(word.items(), key=lambda item: item[1], reverse=True))
+    sorted_word = dict(sorted(word.items(), key=lambda item: item[1], reverse=True))
     sorted_word = pd.DataFrame(sorted_word.items(), columns=['Nama', 'Jumlah'])
     sorted_word = sorted_word.head(10)
 
