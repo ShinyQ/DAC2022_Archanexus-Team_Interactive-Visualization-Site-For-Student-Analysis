@@ -514,6 +514,6 @@ def app():
     st.markdown('''
         #### Wordcloud Nama Mahasiswa
 
-        Pada wordcloud dibawah ini terlihat nama mahasiswa yang paling banyak terdapat pada dataset.
+        Pada wordcloud dibawah ini terlihat nama mahasiswa yang paling banyak terdapat pada dataset. Diketahui bahwa mahasiswa dengan nama Alexander adalah yang paling banyak pada dataset tersebut sebesar 107 diikuti oleh nama Bob dan Bryon dengan jumlah 104
     ''')
     wordcloud_name(df)
