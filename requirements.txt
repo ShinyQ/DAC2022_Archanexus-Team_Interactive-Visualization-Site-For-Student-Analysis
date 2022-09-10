@@ -1,7 +1,7 @@
 streamlit
-pandas
-seaborn
-matplotlib
+pandas==1.4.2
+seaborn==0.12.2
+matplotlib==3.5.2
 plotly
 streamlit-embedcode
 sklearn
